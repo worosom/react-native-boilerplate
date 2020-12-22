@@ -10,7 +10,13 @@ const instance = axios.create({
   timeout: 3000,
 })
 
-export const handleError = ({ message, data, status }) => {
+interface IError {
+  message: string
+  data: any
+  status: number
+}
+
+export const handleError = ({ message, data, status }: IError) => {
   return Promise.reject({ message, data, status })
 }
 

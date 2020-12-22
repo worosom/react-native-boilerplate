@@ -8,24 +8,29 @@ import Layout from '@/Theme/Layout'
 import Common from '@/Theme/Common'
 import * as DefaultVariables from '@/Theme/Variables'
 import themes from '@/Theme/themes'
+import { RootState } from '../../Store/store.types'
+import { SubTheme, Theme, Variables } from '@/Theme/theme.type'
 
 export default function () {
   // Get the scheme device
   const colorScheme = useColorScheme()
 
   // Get current theme from the store
-  const currentTheme = useSelector((state) => state.theme.theme || 'default')
-  const isDark = useSelector((state) => state.theme.darkMode)
+  const currentTheme: string = useSelector(
+    (state: RootState) => state.theme.theme || 'default',
+  )
+  const isDark = useSelector((state: RootState) => state.theme.darkMode)
   const darkMode = isDark === null ? colorScheme === 'dark' : isDark
   //Select the right theme light theme ({} if not exist)
-  const { Variables: themeConfigVars = {}, ...themeConfig } =
+  const { Variables: themeConfigVars = {}, ...themeConfig }: SubTheme =
     themes[currentTheme] || {}
 
-  const { Variables: darkThemeConfigVars = {}, ...darkThemeConfig } = darkMode
-    ? themes[`${currentTheme}_dark`] || {}
-    : {}
+  const {
+    Variables: darkThemeConfigVars = {},
+    ...darkThemeConfig
+  }: SubTheme = darkMode ? themes[`${currentTheme}_dark`] || {} : {}
 
-  const themeVariables = mergeVariables(
+  const themeVariables: Variables = mergeVariables(
     DefaultVariables,
     themeConfigVars,
     darkThemeConfigVars,
@@ -57,7 +62,7 @@ export default function () {
  * @param theme
  * @return {{}|{[p: string]: *}}
  */
-const formatTheme = (variables, theme) => {
+const formatTheme = (variables, theme: object) => {
   return Object.entries(theme).reduce((acc, [name, generate]) => {
     return {
       ...acc,
@@ -73,19 +78,25 @@ const formatTheme = (variables, theme) => {
  * @param variables : {MetricsSizes?: {small: number, large: number, tiny: number, regular: number}, NavigationColors?: {primary: string}, FontSize?: {small: number, large: number, regular: number}, Colors?: {white: string, success: string, text: string, error: string, transparent: string, primary: string}} variables from @Theme/Variables
  * @param themeConfig : currentTheme form @Theme/themes
  * @param darkThemeConfig : currentDarkTheme from @Theme/themes
- * @return {{}|{[p: string]: *}}
  */
-const mergeVariables = (variables, themeConfig, darkThemeConfig) =>
-  Object.entries(variables).reduce((acc, [group, vars]) => {
-    return {
-      ...acc,
-      [group]: {
-        ...vars,
-        ...(themeConfig[group] || {}),
-        ...(darkThemeConfig[group] || {}),
-      },
-    }
-  }, {})
+const mergeVariables = (
+  variables: Variables,
+  themeConfig: Variables,
+  darkThemeConfig: Variables,
+) =>
+  Object.entries(variables).reduce(
+    (acc: any, [group, vars]: [keyof Variables, any]) => {
+      return {
+        ...acc,
+        [group]: {
+          ...vars,
+          ...(themeConfig[group] || {}),
+          ...(darkThemeConfig[group] || {}),
+        },
+      }
+    },
+    {} as Variables,
+  )
 
 /**
  * Provide all the theme exposed with useTheme()
@@ -96,7 +107,12 @@ const mergeVariables = (variables, themeConfig, darkThemeConfig) =>
  * @param darkThemeConfig
  * @return {{[p: string]: *, NavigationTheme: {colors}, darkMode: *}}
  */
-const buildTheme = (darkMode, baseTheme, themeConfig, darkThemeConfig) => {
+const buildTheme = (
+  darkMode: boolean,
+  baseTheme: Theme,
+  themeConfig: SubTheme,
+  darkThemeConfig: SubTheme,
+) => {
   return {
     ...mergeTheme(baseTheme, themeConfig, darkThemeConfig),
     darkMode,
@@ -115,7 +131,11 @@ const buildTheme = (darkMode, baseTheme, themeConfig, darkThemeConfig) => {
  * @param darkTheme
  * @return {{[p: string]: *}}
  */
-const mergeTheme = (baseTheme, theme, darkTheme) => ({
+const mergeTheme = (
+  baseTheme: Theme,
+  theme: SubTheme,
+  darkTheme: SubTheme,
+) => ({
   ...Object.entries(baseTheme).reduce(
     (acc, [key, value]) => ({
       ...acc,

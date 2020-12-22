@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { Variables } from './theme.type'
 
 /**
  * Generate Styles depending on MetricsSizes vars availabled at ./Theme/Variables
@@ -18,7 +19,7 @@ import { StyleSheet } from 'react-native'
  * @param Theme can be spread like {Colors, NavigationColors, Gutters, Layout, Common, ...args}
  * @return {*}
  */
-export default function ({ MetricsSizes }) {
+export default function ({ MetricsSizes }: Variables) {
   return StyleSheet.create({
     ...Object.entries(MetricsSizes).reduce(
       (acc, [key, value]) => ({

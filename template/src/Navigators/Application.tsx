@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { IndexStartupContainer } from '@/Containers'
 import { useSelector } from 'react-redux'
@@ -7,17 +7,21 @@ import { navigationRef } from '@/Navigators/Root'
 import { SafeAreaView, StatusBar } from 'react-native'
 import { useTheme } from '@/Theme'
 import { AppearanceProvider } from 'react-native-appearance'
+import { RootState } from '../Store/store.types'
 
 const Stack = createStackNavigator()
 
-let MainNavigator
+let MainNavigator: FunctionComponent<any>
 
 // @refresh reset
+
 const ApplicationNavigator = () => {
   const { Layout, darkMode, NavigationTheme } = useTheme()
   const { colors } = NavigationTheme
   const [isApplicationLoaded, setIsApplicationLoaded] = useState(false)
-  const applicationIsLoading = useSelector((state) => state.startup.loading)
+  const applicationIsLoading = useSelector(
+    (state: RootState) => state.startup.loading,
+  )
 
   useEffect(() => {
     if (MainNavigator == null && !applicationIsLoading) {

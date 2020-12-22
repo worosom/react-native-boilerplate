@@ -4,13 +4,14 @@
  * Use it to define generic component styles (e.g. the default text styles, default button styles...).
  */
 import { StyleSheet } from 'react-native'
+import { Variables } from '@/Theme/theme.type'
 
 /**
  *
  * @param Theme can be spread like {Colors, NavigationColors, Gutters, Layout, Common, ...args}
  * @return {*}
  */
-export default function ({ Colors }) {
+export default function ({ Colors }: Variables) {
   return StyleSheet.create({
     button: {
       backgroundColor: Colors.primary,

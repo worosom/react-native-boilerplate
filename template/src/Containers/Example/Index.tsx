@@ -6,26 +6,34 @@ import { useTheme } from '@/Theme'
 import FetchOne from '@/Store/User/FetchOne'
 import { useTranslation } from 'react-i18next'
 import ChangeTheme from '@/Store/Theme/ChangeTheme'
+import { RootState } from '../../Store/store.types'
+
+interface ITheme {
+  theme?: string
+  darkMode?: null | true | false
+}
 
 const IndexExampleContainer = () => {
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const dispatch = useDispatch()
 
-  const user = useSelector((state) => state.user.item)
+  const user = useSelector((state: RootState) => state.user.item)
   const fetchOneUserLoading = useSelector(
-    (state) => state.user.fetchOne.loading,
+    (state: RootState) => state.user.fetchOne.loading,
   )
-  const fetchOneUserError = useSelector((state) => state.user.fetchOne.error)
+  const fetchOneUserError = useSelector(
+    (state: RootState) => state.user.fetchOne.error,
+  )
 
-  const [userId, setUserId] = useState('1')
+  const [userId, setUserId] = useState<string>('1')
 
-  const fetch = (id) => {
+  const fetch = (id: string) => {
     setUserId(id)
     dispatch(FetchOne.action(id))
   }
 
-  const changeTheme = ({ theme, darkMode }) => {
+  const changeTheme = ({ theme, darkMode }: ITheme) => {
     dispatch(ChangeTheme.action({ theme, darkMode }))
   }
 
@@ -37,7 +45,9 @@ const IndexExampleContainer = () => {
         {fetchOneUserError ? (
           <Text style={Fonts.textRegular}>{fetchOneUserError.message}</Text>
         ) : (
-          <Text style={Fonts.textRegular}>{t('example.helloUser', { name: user.name })}</Text>
+          <Text style={Fonts.textRegular}>
+            {t('example.helloUser', { name: user.name })}
+          </Text>
         )}
       </View>
       <View
