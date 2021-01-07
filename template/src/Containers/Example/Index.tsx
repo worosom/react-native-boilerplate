@@ -8,11 +8,6 @@ import { useTranslation } from 'react-i18next'
 import ChangeTheme from '@/Store/Theme/ChangeTheme'
 import { RootState } from '../../Store/store.types'
 
-interface ITheme {
-  theme?: string
-  darkMode?: null | true | false
-}
-
 const IndexExampleContainer = () => {
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
@@ -33,7 +28,13 @@ const IndexExampleContainer = () => {
     dispatch(FetchOne.action(id))
   }
 
-  const changeTheme = ({ theme, darkMode }: ITheme) => {
+  const changeTheme = ({
+    theme,
+    darkMode,
+  }: {
+    theme?: string
+    darkMode?: null | true | false
+  }) => {
     dispatch(ChangeTheme.action({ theme, darkMode }))
   }
 

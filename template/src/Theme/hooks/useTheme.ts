@@ -9,7 +9,17 @@ import Common from '@/Theme/Common'
 import * as DefaultVariables from '@/Theme/Variables'
 import themes from '@/Theme/themes'
 import { RootState } from '../../Store/store.types'
-import { SubTheme, Theme, Variables } from '@/Theme/theme.type'
+import {
+  SubTheme,
+  Variables,
+  Theme,
+  VariablesOrNull,
+  Fonts as FontType,
+  Layout as LayoutType,
+  Gutters as GuttersType,
+  Common as CommonType,
+  Colors,
+} from '@/Theme/theme.type'
 
 export default function () {
   // Get the scheme device
@@ -37,13 +47,13 @@ export default function () {
   )
 
   // Build the default theme
-  const baseTheme = {
-    Fonts: Fonts(themeVariables),
-    Gutters: Gutters(themeVariables),
-    Common: Common(themeVariables),
+  const baseTheme: Theme = {
+    Fonts: Fonts(themeVariables) as FontType,
+    Gutters: Gutters(themeVariables) as GuttersType,
+    Common: Common(themeVariables) as CommonType,
     Images: Images(themeVariables),
-    Layout: Layout(themeVariables),
-    ...themeVariables,
+    Layout: Layout(themeVariables) as LayoutType,
+    ...(themeVariables as Variables),
   }
 
   // Merge and return the current Theme
@@ -60,9 +70,8 @@ export default function () {
  *
  * @param variables
  * @param theme
- * @return {{}|{[p: string]: *}}
  */
-const formatTheme = (variables, theme: object) => {
+const formatTheme = (variables: VariablesOrNull, theme: SubTheme) => {
   return Object.entries(theme).reduce((acc, [name, generate]) => {
     return {
       ...acc,
@@ -81,17 +90,17 @@ const formatTheme = (variables, theme: object) => {
  */
 const mergeVariables = (
   variables: Variables,
-  themeConfig: Variables,
-  darkThemeConfig: Variables,
+  themeConfig: VariablesOrNull,
+  darkThemeConfig: VariablesOrNull,
 ) =>
   Object.entries(variables).reduce(
-    (acc: any, [group, vars]: [keyof Variables, any]) => {
+    (acc: Variables, [group, vars]: [string, any]) => {
       return {
         ...acc,
         [group]: {
           ...vars,
-          ...(themeConfig[group] || {}),
-          ...(darkThemeConfig[group] || {}),
+          ...((themeConfig as any)[group] || {}),
+          ...((darkThemeConfig as any)[group] || {}),
         },
       }
     },
@@ -105,7 +114,6 @@ const mergeVariables = (
  * @param baseTheme
  * @param themeConfig
  * @param darkThemeConfig
- * @return {{[p: string]: *, NavigationTheme: {colors}, darkMode: *}}
  */
 const buildTheme = (
   darkMode: boolean,
@@ -129,7 +137,6 @@ const buildTheme = (
  * @param baseTheme
  * @param theme
  * @param darkTheme
- * @return {{[p: string]: *}}
  */
 const mergeTheme = (
   baseTheme: Theme,
@@ -137,15 +144,15 @@ const mergeTheme = (
   darkTheme: SubTheme,
 ) => ({
   ...Object.entries(baseTheme).reduce(
-    (acc, [key, value]) => ({
+    (acc: Theme, [key, value]: [string, any]) => ({
       ...acc,
       [key]: {
         ...value,
-        ...(theme[key] || {}),
-        ...(darkTheme[key] || {}),
+        ...((theme as any)[key] || {}),
+        ...((darkTheme as any)[key] || {}),
       },
     }),
-    {},
+    {} as Theme,
   ),
 })
 
@@ -154,9 +161,11 @@ const mergeTheme = (
  *
  * @param reactNavigationTheme
  * @param overrideColors
- * @return {{colors}}
  */
-const mergeNavigationTheme = (reactNavigationTheme, overrideColors) => ({
+const mergeNavigationTheme = (
+  reactNavigationTheme: { dark: boolean; colors: Colors },
+  overrideColors: Colors,
+) => ({
   ...reactNavigationTheme,
   colors: {
     ...reactNavigationTheme.colors,

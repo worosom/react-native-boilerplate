@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Variables } from './theme.type'
+import {Variables, VariablesOrNull} from './theme.type'
 
 /**
  * Generate Styles depending on MetricsSizes vars availabled at ./Theme/Variables

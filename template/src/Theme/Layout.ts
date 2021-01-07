@@ -1,11 +1,13 @@
 import { StyleSheet } from 'react-native'
+import {Variables} from '@/Theme/theme.type'
 
 /**
  *
  * @param Theme can be spread like {Colors, NavigationColors, Gutters, Layout, Common, ...args}
  * @return {*}
  */
-export default function () {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function (Theme: Variables) {
   return StyleSheet.create({
     /* Column Layouts */
     column: {

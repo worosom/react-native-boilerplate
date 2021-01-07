@@ -1,33 +1,42 @@
 import { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 
-type StyleType = TextStyle & ViewStyle & ImageStyle
+export type StyleType = TextStyle & ViewStyle & ImageStyle
 
-export type Variables = {
-  Colors?: { [key: string]: string }
-  NavigationColors?: { [key: string]: string }
-  FontSize?: { [key: string]: number | string }
-  MetricsSizes?: { [key: string]: number | string }
+export type Colors = { [key: string]: string }
+export type NavigationColors = Colors
+export type FontSize = { [key: string]: number }
+export type MetricsSizes = { [key: string]: number | string }
+
+export type Fonts = { [key: string]: TextStyle }
+export type Layout = { [key: string]: StyleType }
+export type Gutters = { [key: string]: StyleType }
+export type Common = { [key: string]: StyleType }
+
+export interface Variables {
+  Colors: Colors
+  NavigationColors: NavigationColors
+  FontSize: FontSize
+  MetricsSizes: MetricsSizes
 }
 
-export interface SubTheme {
-  Variables?: Variables
-  Fonts?: StyleType
-  Images?: Images
-  Layout?: StyleType
-  Gutters?: StyleType
+export type VariablesOrNull = Partial<Variables>
+
+export interface Theme {
+  Colors: Colors
+  NavigationColors: NavigationColors
+  FontSize: FontSize
+  MetricsSizes: MetricsSizes
+  Fonts: Fonts
+  Images: Images
+  Layout: Layout
+  Gutters: Gutters
+  Common: Common
+}
+
+export interface SubTheme extends Partial<Theme> {
+  Variables?: VariablesOrNull
 }
 
 interface Images {
   [key: string]: any
-}
-
-export interface Theme {
-  Colors: { [key: string]: string }
-  NavigationColors: { [key: string]: string }
-  FontSize: { [key: string]: number | string }
-  MetricsSizes: { [key: string]: number | string }
-  Fonts: StyleType
-  Images: Images
-  Layout: StyleType
-  Gutters: StyleType
 }
