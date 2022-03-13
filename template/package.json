@@ -5,6 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "web": "DISABLE_ESLINT_PLUGIN=true craco start",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
@@ -20,21 +21,24 @@
     "i18next": "^21.6.5",
     "prop-types": "^15.8.1",
     "react": "17.0.2",
+    "react-dom": "^17.0.2",
     "react-i18next": "^11.15.3",
     "react-native": "0.66.4",
     "react-native-flipper": "^0.127.0",
-    "react-native-gesture-handler": "^2.1.0",
+    "react-native-gesture-handler": "https://github.com/software-mansion/react-native-gesture-handler#refs/heads/@jpiasecki/fix-testing-library-bundling",
     "react-native-reanimated": "^2.3.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.1",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "redux-flipper": "^2.0.1",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
+    "@craco/craco": "^6.4.3",
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.6.3",
     "babel-plugin-module-resolver": "^4.0.0",
@@ -45,10 +49,12 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.66.2",
+    "react-native-web": "^0.17.7",
+    "react-scripts": "^5.0.0",
     "react-test-renderer": "17.0.2"
   },
   "jest": {
-    "preset": "react-native",
+    "preset": "react-native-web",
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -67,6 +73,18 @@
     "testEnvironment": "jsdom",
     "transformIgnorePatterns": [
       "/node_modules/(?!@react-native|react-native)"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }
