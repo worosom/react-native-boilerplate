@@ -25,7 +25,7 @@
     "react-i18next": "^11.15.3",
     "react-native": "0.66.4",
     "react-native-flipper": "^0.127.0",
-    "react-native-gesture-handler": "https://github.com/software-mansion/react-native-gesture-handler#refs/heads/@jpiasecki/fix-testing-library-bundling",
+    "react-native-gesture-handler": "^2.3.2",
     "react-native-reanimated": "^2.3.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.1",
